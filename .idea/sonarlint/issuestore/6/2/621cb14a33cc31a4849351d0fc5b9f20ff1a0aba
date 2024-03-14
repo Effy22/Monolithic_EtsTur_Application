@@ -1,0 +1,13 @@
+
+˜	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ®©ùÿÿÿÿ8à•Á½ã1J$037ef6e8-75ce-4f1e-a28a-683c4ddb4741
+˜	java:S117i"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…·á›ûÿÿÿÿ8à•Á½ã1J$d8624fc7-1a33-4a6f-bea7-e09149526929
+³
+java:S14885"kImmediately return this expression instead of assigning it to the temporary variable "otelSaveResponseDto".(¨ó„‡şÿÿÿÿ8à•Á½ã1J$59b6748c-dab6-4565-be04-35cd9a3b7927
+¦
+java:S3655q"^Call "addressOptional.isPresent()" or "!addressOptional.isEmpty()" before accessing the value.(È‹Áàıÿÿÿÿ8ë•Á½ã1J$147ccd21-199c-45f6-b291-1da1a27f0d80
+¢	java:S116"[Rename this field "otel_tagsService" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´Ú·ûÿÿÿÿ8ì•Á½ã1J$53949f14-a25c-4b4f-9fe2-611879ebf615
+•	java:S100C"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ‘œ‰şÿÿÿÿ8ï•Á½ã1J$2afc5504-c8c2-4b2b-97e3-0bf5ba663e4f
+›
+java:S6204"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(°„ãÙÿÿÿÿÿ8ó•Á½ã1J$b203901d-0d75-4480-9619-f9579707ecc5
+„
+java:S1612";Replace this lambda with method reference 'Address::getId'.(°„ãÙÿÿÿÿÿ8ô•Á½ã1J$012fc591-bc7b-4d55-98ce-0d5afc84038f
