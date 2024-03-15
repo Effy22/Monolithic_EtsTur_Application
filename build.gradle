@@ -14,7 +14,7 @@ allprojects {
 
 }
 
-subprojects {
+
     group = 'com.elif'
     version = 'v.0.1'
     java {
@@ -28,7 +28,6 @@ subprojects {
         }
     }
 
-}
 
 allprojects {
     repositories {
@@ -51,6 +50,7 @@ allprojects {
         annotationProcessor libs.mapstructProcessor
         implementation libs.jwt
         implementation libs.springBootStarterDataMongoDB
+        implementation libs.springBootStarterMail
 
     }
 

@@ -25,3 +25,5 @@ db.createUser({ user: "tatiluser", pwd: "tatiluser*", roles: ["readWrite","dbAdm
 *  +----- user/favori (kullanıcının beğendiği otellerin listesini dönecek)
 *  --------------------------------
 */
+
+docker build --platform linux/amd64 -t elifgur/monolithic_etstur_application:v.0.5 .

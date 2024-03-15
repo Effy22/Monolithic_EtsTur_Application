@@ -4,7 +4,7 @@ import com.elif.domain.Auth;
 import com.elif.dto.request.ActivateStatusRequestDto;
 import com.elif.dto.request.LoginRequestDto;
 import com.elif.dto.request.RegisterRequestDto;
-import com.elif.dto.response.ResgisterResponseDto;
+import com.elif.dto.response.RegisterResponseDto;
 import com.elif.exception.ErrorType;
 import com.elif.exception.OtelException;
 import com.elif.mapper.AuthMapper;
@@ -13,7 +13,6 @@ import com.elif.utility.CodeGenerator;
 import com.elif.utility.Enum.EStatus;
 import com.elif.utility.JwtTokenManager;
 import com.elif.utility.ServiceManager;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,13 +21,15 @@ import java.util.Optional;
 public class AuthService extends ServiceManager<Auth,String> {
     private final AuthRepository authRepository;
     private final JwtTokenManager jwtTokenManager;
-    public AuthService(JwtTokenManager jwtTokenManager,AuthRepository authRepository) {
+    private final MailSenderService mailSenderService;
+    public AuthService(JwtTokenManager jwtTokenManager,AuthRepository authRepository,MailSenderService mailSenderService) {
         super(authRepository);
         this.authRepository = authRepository;
         this.jwtTokenManager=jwtTokenManager;
+        this.mailSenderService=mailSenderService;
     }
 
-    public ResgisterResponseDto register(RegisterRequestDto dto) {
+    public RegisterResponseDto register(RegisterRequestDto dto) {
        Optional<Auth>optionalByUsername= authRepository.findByUsername(dto.getUsername());
        Optional<Auth>optionalByEmail= authRepository.findByEmail(dto.getEmail());
        if(optionalByEmail.isPresent() || optionalByUsername.isPresent()){
@@ -37,7 +38,9 @@ public class AuthService extends ServiceManager<Auth,String> {
         Auth auth= AuthMapper.INSTANCE.fromAuthRegisterRequestDtoToAuth(dto);
         auth.setActivationCode(CodeGenerator.generateCode());
         save(auth);
-       return AuthMapper.INSTANCE.fromAuthToRegisterResponseDto(auth);
+       RegisterResponseDto responseDto= AuthMapper.INSTANCE.fromAuthToRegisterResponseDto(auth);
+       mailSenderService.sendMail(responseDto);
+       return responseDto;
     }
 
     public String login(LoginRequestDto dto) {
@@ -53,17 +56,15 @@ public class AuthService extends ServiceManager<Auth,String> {
         }
     }
 
-    public Boolean activateStatus(ActivateStatusRequestDto dto) {
-        Optional<Auth> optionalAuth = findById(dto.getAuthId());
-        if(optionalAuth.isEmpty()){
-            throw new OtelException(ErrorType.USER_NOT_FOUND);
-        }
-        if(optionalAuth.get().getActivationCode().equals(dto.getActivationCode())){
-            optionalAuth.get().setStatus(EStatus.ACTIVE);
-            update(optionalAuth.get());
-            return true;
-        } else {
-            throw new OtelException(ErrorType.ACTIVATION_CODE_ERROR);
-        }
+    public String activateStatus(String activationCode) {
+        Auth auth = authRepository.findByActivationCode(activationCode)
+                .orElseThrow(() -> new OtelException(ErrorType.ACTIVATION_CODE_ERROR));
+
+        auth.setStatus(EStatus.ACTIVE);
+        auth.setActivationCode(null); // Aktivasyon kodunu temizle
+
+        authRepository.save(auth);
+
+        return "Hesabınız başarıyla aktifleştirildi. Artık giriş yapabilirsiniz.";
     }
 }

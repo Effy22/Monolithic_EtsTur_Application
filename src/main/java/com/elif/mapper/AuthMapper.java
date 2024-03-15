@@ -2,7 +2,7 @@ package com.elif.mapper;
 
 import com.elif.domain.Auth;
 import com.elif.dto.request.RegisterRequestDto;
-import com.elif.dto.response.ResgisterResponseDto;
+import com.elif.dto.response.RegisterResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -14,6 +14,6 @@ public interface AuthMapper {
 
     Auth fromAuthRegisterRequestDtoToAuth(final RegisterRequestDto dto);
 
-    ResgisterResponseDto fromAuthToRegisterResponseDto(Auth auth);
+    RegisterResponseDto fromAuthToRegisterResponseDto(Auth auth);
 
 }
